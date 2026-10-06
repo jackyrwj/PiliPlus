@@ -177,7 +177,7 @@ abstract final class Pref {
 
   static int get defaultHomePageIndex => _setting.get(
     SettingBoxKey.defaultHomePage,
-    defaultValue: NavigationBarType.home.index,
+    defaultValue: NavigationBarType.followFeed.index,
   );
 
   static int get previewQ =>

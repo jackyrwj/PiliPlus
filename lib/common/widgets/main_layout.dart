@@ -1,5 +1,6 @@
 import 'package:PiliPlus/common/widgets/slotted_layout_helper.dart';
 import 'package:flutter/rendering.dart' show ChildLayoutHelper;
+import 'package:flutter/scheduler.dart' show SchedulerBinding;
 import 'package:material_ui/material_ui.dart';
 
 enum MainType { sideBar, bottomNav, body }
@@ -16,6 +17,10 @@ class MainLayout
   final Widget? sideBar;
   final Widget? bottomNav;
   final Widget body;
+
+  /// 底部导航栏实际占用的高度（侧边栏布局时为 0）。
+  /// 导航栏是盖在 body 上的，需要避开它的页面（如关注流）可以监听这个值。
+  static final ValueNotifier<double> bottomNavHeight = ValueNotifier(0);
 
   @override
   Iterable<MainType> get slots => MainType.values;
@@ -53,6 +58,7 @@ class _RenderMainLayout extends RenderBox
 
     final Offset bodyOffset;
     final BoxConstraints bodyConstraints;
+    double bottomNavHeight = 0;
 
     final sideBar = this.sideBar;
     if (sideBar != null) {
@@ -74,6 +80,7 @@ class _RenderMainLayout extends RenderBox
           bottomNav,
           constraints.loosen(),
         );
+        bottomNavHeight = bottomNavSize.height;
         setOffset(
           bottomNav,
           Offset(
@@ -92,6 +99,13 @@ class _RenderMainLayout extends RenderBox
 
     final body = this.body..layout(bodyConstraints);
     setOffset(body, bodyOffset);
+
+    if (MainLayout.bottomNavHeight.value != bottomNavHeight) {
+      // 布局阶段不能直接通知监听者，放到这一帧结束后
+      SchedulerBinding.instance.addPostFrameCallback(
+        (_) => MainLayout.bottomNavHeight.value = bottomNavHeight,
+      );
+    }
   }
 
   @override
