@@ -27,6 +27,21 @@
 
 <br/>
 
+## 本 fork 新增：关注流
+
+> 这是 [PiliPlus](https://github.com/bggRGjQaUbCoE/PiliPlus) 的个人 fork，在 `follow-feed` 分支上加了一个**只刷关注 UP 主投稿**的竖屏翻页模式，没有推荐算法。
+
+<img src="assets/screenshots/follow_feed_portrait.gif" width="30%" alt="竖屏上下滑切换" />
+<img src="assets/screenshots/follow_feed_landscape.gif" width="66%" alt="横屏全屏" />
+
+- 底部导航新增「关注」tab（默认首页），全屏自动播放关注 UP 主的投稿，上下滑切换
+- 单击暂停，双击 / 点「详情」进入完整视频页，点头像进 UP 主页
+- 切 tab、进其他页面、App 退到后台时自动暂停，回来继续播放
+- 横屏视频点「全屏」进入横屏模式，全屏里照样上下滑切换，「退出全屏」回到同一条
+- 代码在 `lib/pages/follow_feed/`，基于 PiliPlus 2.1.6；目前只在 iOS 真机自测过，不提供安装包，需要自行编译
+
+<br/>
+
 ## 适配平台
 
 - [x] Android
